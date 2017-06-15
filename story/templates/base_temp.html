@@ -38,7 +38,13 @@
 		<li><a href="/">HOME</a></li>
 		<li><a href="/story">BLOG</a></li>
 		<li><a href='/pictures/'>PICTURES</a></li>
-        <li><a href="/login/">Login</a> </li>
+
+        {% if user.is_authenticated %}
+            <li><a href="/logout/">logout</a> </li>
+        {% else %}
+            <li><a href="/login/">Login</a> </li>
+        {% endif %}
+
 	</ul>
 	{% endblock sidebar %}
 

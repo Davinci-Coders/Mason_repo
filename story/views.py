@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
 from django.shortcuts import render, redirect
@@ -54,8 +54,8 @@ def login_view(request):
         form = AuthenticationForm(request.POST)
         # if form.is_valid():
         print 'form is valid'
-        username = request.POST['username']
-        password = request.POST['password']
+        username = request.POST.get('username', None)
+        password = request.POST.get('password', None)
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
@@ -72,3 +72,8 @@ def login_view(request):
         'form': form,
     }
     return render(request, 'login.html', context)
+
+
+def logout_view(request):
+    logout(request)
+    return redirect('/')

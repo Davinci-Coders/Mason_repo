@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
 from django.shortcuts import render, redirect
@@ -23,8 +23,10 @@ def story(request):
 
 
 def specific(request, blog_id):
+    # expounded for additional clarity regarding tests
+    post_obj = Post.objects.get(id=blog_id)
     context = {
-        'post': Post.objects.get(id=blog_id)
+        'post': post_obj
     }
     return render(request, 'specific_blogpage.html', context)
 
@@ -72,3 +74,8 @@ def login_view(request):
         'form': form,
     }
     return render(request, 'login.html', context)
+
+
+def logout_view(request):
+    logout(request)
+    return redirect('/')
